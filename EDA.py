@@ -396,12 +396,15 @@ if uploaded_file is not None:
 
         # Colour-code the Total Outliers column
         def highlight_outliers(val):
-            if isinstance(val, int):
-                color = "#fce8e6" if val > 0 else "#e6f4ea"
-                return f"background-color: {color}"
-            return ""
+            try:
+                return "background-color: #fce8e6" if val > 0 else "background-color: #e6f4ea"
+            except:
+                return ""
 
         st.dataframe(
-            outlier_df.style.applymap(highlight_outliers, subset=["Total Outliers"]),
+            outlier_df.style.background_gradient(
+                subset=["Total Outliers"],
+                cmap="Reds"
+            ),
             use_container_width=True
         )
